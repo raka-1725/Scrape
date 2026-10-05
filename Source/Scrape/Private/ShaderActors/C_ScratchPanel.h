@@ -79,8 +79,9 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Scratch | Settings")
 	TArray<bool> bScratchedThisFrame;
 	
-	UPROPERTY(EditAnywhere, Category = "Scratch | Settings")
+
 	bool bOpen = false;
+	bool bDirty = false;
 	
 	
 private:
@@ -89,4 +90,7 @@ private:
 	
 	UFUNCTION()
 	float ApplyScratch(const FVector2D& UV, float DeltaTime);
+	
+	UFUNCTION()
+	void ReDraw();
 };

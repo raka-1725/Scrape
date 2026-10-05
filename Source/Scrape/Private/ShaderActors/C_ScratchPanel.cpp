@@ -40,7 +40,27 @@ void AC_ScratchPanel::BeginPlay()
 void AC_ScratchPanel::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
+	
+	bool bPlayerInside = false;
+	
+	for (int32 i = 0; i < 4; ++i)
+	{
+		if (HoleR[i] > 0.f)
+		{
+			if (!bScratchedThisFrame[i] && !bPlayerInside)
+			{
+				HoleR[i] = FMath::Max(0.f, HoleR[i] - ShrinkSPD * DeltaTime);
+			}
+			bScratchedThisFrame[i] = false;
+			bDirty = true;
+		}
+	}
+	
+	if (bDirty)
+	{
+		ReDraw();
+		bDirty = false;
+	}
 }
 
 UTextureRenderTarget2D* AC_ScratchPanel::CreareRenderTarget()
@@ -62,7 +82,38 @@ float AC_ScratchPanel::ApplyScratch(const FVector2D& UV, float DeltaTime)
 	{
 		return 0.5f;
 	}
-	
-	
+
+	for (int i = 0; i < Hole.GetAllocatedSize(); ++i)
+	{
+		if (((UV - Hole[i]) * WallSize).Size() < MergeDist)
+		{
+			HoleR[i] = FMath::Min(HoleR[i] + GrowSPD * DeltaTime, MaxRadius);
+			bScratchedThisFrame[i] = true;
+		}
+		else
+		{
+			for (int j = 0; HoleR.GetAllocatedSize(); ++j)
+			{
+				if (HoleR[j] == 0)
+				{
+					Hole[j] = UV, HoleR[j] = 5;
+					bScratchedThisFrame[j] = true;
+				}
+			}
+		}
+	}
+	return 1.0f;
+}
+
+void AC_ScratchPanel::ReDraw()
+{
+	for (int32 i = 0; i < 4; ++i)
+	{
+		const FName Name(*FString::Printf(TEXT("Hole%d"), i));
+		MID_Brush->SetVectorParameterValue(Name,
+			FLinearColor(Hole[i].X, Hole[i].Y, HoleR[i], 0.f));
+	}
+	UKismetRenderingLibrary::ClearRenderTarget2D(this, RenderTarget, FLinearColor::Black);
+	UKismetRenderingLibrary::DrawMaterialToRenderTarget(this, RenderTarget, MID_Brush);
 }
 
