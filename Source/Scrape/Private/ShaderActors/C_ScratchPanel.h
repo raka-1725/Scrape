@@ -83,13 +83,13 @@ private:
 	bool bOpen = false;
 	bool bDirty = false;
 	
-	
+public:
+	UFUNCTION()
+	float ApplyScratch(const FVector2D& UV, float DeltaTime);
 private:
 	UFUNCTION()
 	UTextureRenderTarget2D* CreareRenderTarget();
 	
-	UFUNCTION()
-	float ApplyScratch(const FVector2D& UV, float DeltaTime);
 	
 	UFUNCTION()
 	void ReDraw();
