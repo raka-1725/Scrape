@@ -4,11 +4,12 @@
 #include "Player/C_PlayerCharacter.h"
 
 #include "EnhancedInputComponent.h"
+#include "Sonar/C_SonarComponent.h"
 
 AC_PlayerCharacter::AC_PlayerCharacter()
 {
 	ScratchTool = CreateDefaultSubobject<UC_ScratchToolComponent>(TEXT("ScratchTool"));
-	
+	SonarComponent = CreateDefaultSubobject<UC_SonarComponent>(TEXT("SonarComponent"));
 }
 
 void AC_PlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)

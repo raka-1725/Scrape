@@ -39,4 +39,5 @@ protected:
 private:
 	void ScratchStart();
 	void ScratchEnd();
+	
 };
