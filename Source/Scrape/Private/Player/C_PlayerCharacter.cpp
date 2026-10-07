@@ -8,6 +8,7 @@
 AC_PlayerCharacter::AC_PlayerCharacter()
 {
 	ScratchTool = CreateDefaultSubobject<UC_ScratchToolComponent>(TEXT("ScratchTool"));
+	
 }
 
 void AC_PlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)

@@ -6,6 +6,11 @@
 #include "GameFramework/Actor.h"
 #include "C_ScratchPanel.generated.h"
 
+class UStaticMeshComponent;
+class UMaterialInterface;
+class UMaterialInstanceDynamic;
+class UTextureRenderTarget2D;
+
 UCLASS()
 class AC_ScratchPanel : public AActor
 {
@@ -25,72 +30,72 @@ public:
 	
 	
 private:
+	static const int32 NumHoles = 4;
+
 	UPROPERTY(VisibleAnywhere, Category = "Mesh")
-	TObjectPtr< UStaticMeshComponent> Mesh;
-	
-	UPROPERTY(EditAnywhere, Category = "RenderTarget")
-	class UTextureRenderTarget2D* RenderTarget;
-	
+	TObjectPtr<UStaticMeshComponent> Mesh;
+
 	UPROPERTY(EditAnywhere, Category = "Materials")
 	TObjectPtr<UMaterialInterface> M_Wall;
-	
+
 	UPROPERTY(EditAnywhere, Category = "Materials")
 	TObjectPtr<UMaterialInterface> M_Scratch;
-	
-	UPROPERTY(EditAnywhere, Category = "Material | DynamicInstance")
-	UMaterialInstanceDynamic* MID_Wall;
-	
-	UPROPERTY(EditAnywhere, Category = "Material | DynamicInstance")
-	UMaterialInstanceDynamic* MID_Brush;
-	
-	UPROPERTY(EditAnywhere, Category = "Hole | UV")
-	TArray<FVector2D> Hole;
-		
-	UPROPERTY(EditAnywhere, Category = "Hole | Radius")
-	TArray<float> HoleR;
-	
-	UPROPERTY(EditAnywhere, Category = "WallSize")
-	FVector2D WallSize;
-	
-	UPROPERTY(EditAnywhere, Category = "Seed")
-	FVector2D SeedUV;
-	
-	UPROPERTY(EditAnywhere, Category = "Seed")
-	float Seed;
-	
-	UPROPERTY(EditAnywhere, Category = "Scratch | Settings")
+
+	UPROPERTY(Transient)
+	TObjectPtr<UTextureRenderTarget2D> RenderTarget;
+
+	UPROPERTY(Transient)
+	TObjectPtr<UMaterialInstanceDynamic> MID_Wall;
+
+	UPROPERTY(Transient)
+	TObjectPtr<UMaterialInstanceDynamic> MID_Brush;
+
+	UPROPERTY(EditAnywhere, Category = "Panel")
+	FVector2D WallSize = FVector2D(200.0, 250.0);   // cm
+
+	UPROPERTY(EditAnywhere, Category = "Panel")
+	FVector2D SeedUV = FVector2D(0.5, 0.5);
+
+	UPROPERTY(EditAnywhere, Category = "Panel")
+	float Seed = 1.0f;
+
+	UPROPERTY(EditAnywhere, Category = "Scratch")
 	float SeedRadius = 25.0f;
-	
-	UPROPERTY(EditAnywhere, Category = "Scratch | Settings")
+
+	UPROPERTY(EditAnywhere, Category = "Scratch")
 	float GrowSPD = 25.0f;
-	
-	UPROPERTY(EditAnywhere, Category = "Scratch | Settings")
+
+	UPROPERTY(EditAnywhere, Category = "Scratch")
 	float ShrinkSPD = 4.0f;
-	
-	UPROPERTY(EditAnywhere, Category = "Scratch | Settings")
+
+	UPROPERTY(EditAnywhere, Category = "Scratch")
 	float MaxRadius = 90.0f;
-	
-	UPROPERTY(EditAnywhere, Category = "Scratch | Settings")
+
+	UPROPERTY(EditAnywhere, Category = "Scratch")
 	float PassRadius = 55.0f;
-	
-	UPROPERTY(EditAnywhere, Category = "Scratch | Settings")
+
+	UPROPERTY(EditAnywhere, Category = "Scratch")
 	float MergeDist = 15.0f;
 	
-	UPROPERTY(EditAnywhere, Category = "Scratch | Settings")
-	TArray<bool> bScratchedThisFrame;
+	FVector2D HoleUV[NumHoles];
 	
-
+	float HoleR[NumHoles] = {};
+	bool bScratchedThisFrame[NumHoles] = {};
+	
 	bool bOpen = false;
 	bool bDirty = false;
 	
 public:
 	UFUNCTION()
 	float ApplyScratch(const FVector2D& UV, float DeltaTime);
+	
+	bool IsOpen() const { return bOpen; }
 private:
 	UFUNCTION()
 	UTextureRenderTarget2D* CreareRenderTarget();
 	
-	
 	UFUNCTION()
 	void ReDraw();
+	
+	void UpdateOpenState();
 };

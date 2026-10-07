@@ -21,7 +21,7 @@ public class Scrape : ModuleRules
 			"Slate"
 		});
 
-		PrivateDependencyModuleNames.AddRange(new string[] { });
+		PrivateDependencyModuleNames.AddRange(new string[] { "OpenCV" });
 
 		PublicIncludePaths.AddRange(new string[] {
 			"Scrape",

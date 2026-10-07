@@ -7,6 +7,7 @@
 #include "ScrapeCharacter.h"
 #include "C_PlayerCharacter.generated.h"
 
+class UC_SonarComponent;
 /**
  * 
  */
@@ -17,8 +18,16 @@ class AC_PlayerCharacter : public AScrapeCharacter
 	
 	UPROPERTY(EditAnywhere, Category = "Input") 
 	TObjectPtr<UInputAction> IA_Scratch;
-	UPROPERTY(EditAnywhere, Category = "Input") 
+	
+	UPROPERTY(EditAnywhere, Category = "Input")
+	TObjectPtr<UInputAction> IA_Sonar ;
+	
+	
+	UPROPERTY(EditAnywhere, Category = "Components") 
 	TObjectPtr<UC_ScratchToolComponent> ScratchTool;
+		
+	UPROPERTY(EditAnywhere, Category = "Components") 
+	TObjectPtr<UC_SonarComponent> SonarComponent;
 	
 public:
 	AC_PlayerCharacter();
