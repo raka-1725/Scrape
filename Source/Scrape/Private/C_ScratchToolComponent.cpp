@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "Perception/AISense_Hearing.h"
 #include "ShaderActors/C_ScratchPanel.h"
 
 class AC_ScratchPanel;
@@ -63,6 +64,10 @@ void UC_ScratchToolComponent::TickComponent(float DeltaTime, ELevelTick TickType
 	if (!UGameplayStatics::FindCollisionUV(Hit, 0, UV)) return;
 
 	const float Factor = Panel->ApplyScratch(UV, DeltaTime);
+	
+	UAISense_Hearing::ReportNoiseEvent(GetWorld(), Hit.ImpactPoint,
+	   0.6f * Factor, Character, 1500.f, TEXT("Scratch"));
+
 	
 }
 
