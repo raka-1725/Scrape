@@ -74,7 +74,7 @@ void UC_SonarComponent::FireFootstepSonar(float Speed)
 	NextFootSlot = (NextFootSlot + 1) % 3;
 
 	StartSlot(Index, Feet, R, FootstepDuration, FootstepStrength * FMath::Lerp(0.6f, 1.f, Alpha));
-	UE_LOG(LogTemp, Warning, TEXT("SonarComponent::FireSonar()"));
+	//UE_LOG(LogTemp, Warning, TEXT("SonarComponent::FireSonar()"));
 	// if (UNoiseSubsystem* Noise = GetWorld()->GetSubsystem<UNoiseSubsystem>())
 	//     Noise->AddNoise(FootstepNoiseCost * Alpha);
 	// UAISense_Hearing::ReportNoiseEvent(GetWorld(), Feet, 0.3f * Alpha, GetOwner(), 0.f, TEXT("Footstep"));
@@ -125,8 +125,7 @@ void UC_SonarComponent::WriteToMPC(const float Strength[4])
 	Inst->SetVectorParameterValue(FName(TEXT("SonarStrength")),
 		FLinearColor(Strength[0], Strength[1], Strength[2], Strength[3]));
 	
-	UE_LOG(LogTemp, Warning, TEXT("Str: %.2f %.2f %.2f %.2f  R1=%.0f"),
-	Strength[0], Strength[1], Strength[2], Strength[3], Slots[1].Radius);
+	//UE_LOG(LogTemp, Warning, TEXT("Str: %.2f %.2f %.2f %.2f  R1=%.0f"),Strength[0], Strength[1], Strength[2], Strength[3], Slots[1].Radius);
 }
 
 void UC_SonarComponent::TickComponent(float DeltaTime, ELevelTick TickType,

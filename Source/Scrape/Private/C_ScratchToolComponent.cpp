@@ -58,12 +58,18 @@ void UC_ScratchToolComponent::TickComponent(float DeltaTime, ELevelTick TickType
 		return;
 
 	AC_ScratchPanel* Panel = Cast<AC_ScratchPanel>(Hit.GetActor());
+	UE_LOG(LogTemp, Warning, TEXT("Scratch: hit %s (not a Panel)"), *GetNameSafe(Hit.GetActor()));
 	if (!Panel) return;
 
 	FVector2D UV;
-	if (!UGameplayStatics::FindCollisionUV(Hit, 0, UV)) return;
+	if (!UGameplayStatics::FindCollisionUV(Hit, 0, UV))
+	{
+		UE_LOG(LogTemp,Warning, TEXT("FindCollisionUV failed "));
+		return;
+	}
 
 	const float Factor = Panel->ApplyScratch(UV, DeltaTime);
+	UE_LOG(LogTemp, Warning, TEXT("Scratch UV=(%.2f, %.2f) Factor=%.1f"), UV.X, UV.Y, Factor);
 	
 	UAISense_Hearing::ReportNoiseEvent(GetWorld(), Hit.ImpactPoint,
 	   0.6f * Factor, Character, 1500.f, TEXT("Scratch"));
