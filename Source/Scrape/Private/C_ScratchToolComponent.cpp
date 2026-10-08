@@ -25,7 +25,7 @@ UC_ScratchToolComponent::UC_ScratchToolComponent()
 void UC_ScratchToolComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
+	UE_LOG(LogTemp, Warning, TEXT("ScratchTool Tick bScratching=%d"), bScratching);
 	ACharacter* Character = Cast<ACharacter>(GetOwner());
 	if (!Character) return;
 	

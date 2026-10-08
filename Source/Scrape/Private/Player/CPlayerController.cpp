@@ -7,6 +7,10 @@
 
 class UEnhancedInputLocalPlayerSubsystem;
 
+ACPlayerController::ACPlayerController()
+{
+}
+
 void ACPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
