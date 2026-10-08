@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "ScrapeCharacter.h"
+#include "Defaults/ScrapeCharacter.h"
 #include "ShooterWeaponHolder.h"
 #include "ShooterCharacter.generated.h"
 

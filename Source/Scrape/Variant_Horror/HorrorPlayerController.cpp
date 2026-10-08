@@ -5,7 +5,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "Engine/LocalPlayer.h"
 #include "InputMappingContext.h"
-#include "ScrapeCameraManager.h"
+#include "Defaults/ScrapeCameraManager.h"
 #include "HorrorCharacter.h"
 #include "HorrorUI.h"
 #include "Scrape.h"
