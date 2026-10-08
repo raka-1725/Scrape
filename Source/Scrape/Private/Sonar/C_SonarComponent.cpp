@@ -23,7 +23,10 @@ UC_SonarComponent::UC_SonarComponent()
 void UC_SonarComponent::BeginPlay()
 {
 	Super::BeginPlay();
-	MPC = LoadObject<UMaterialParameterCollection>(nullptr, TEXT("/Game/_MyFiles/Shaders/MPC_Game.MPC_Game"));
+	if (!MPC)
+	{
+		MPC = LoadObject<UMaterialParameterCollection>(nullptr, TEXT("/Game/_MyFiles/Shaders/MPC_Game.MPC_Game"));
+	}
 }
 void UC_SonarComponent::StartSlot(int32 Index, const FVector& Origin, float InMaxR, float InDuration, float InPeak)
 {
@@ -50,6 +53,8 @@ bool UC_SonarComponent::FireSonar()
 	//if (Noise) Noise->AddNoise(NoiseCost);
 
 	//UAISense_Hearing::ReportNoiseEvent(GetWorld(), S.Origin, SonarLoudness,GetOwner(), 0.f, TEXT("Sonar"));
+	
+
 	return true;
 }
 
@@ -69,7 +74,7 @@ void UC_SonarComponent::FireFootstepSonar(float Speed)
 	NextFootSlot = (NextFootSlot + 1) % 3;
 
 	StartSlot(Index, Feet, R, FootstepDuration, FootstepStrength * FMath::Lerp(0.6f, 1.f, Alpha));
-
+	UE_LOG(LogTemp, Warning, TEXT("SonarComponent::FireSonar()"));
 	// if (UNoiseSubsystem* Noise = GetWorld()->GetSubsystem<UNoiseSubsystem>())
 	//     Noise->AddNoise(FootstepNoiseCost * Alpha);
 	// UAISense_Hearing::ReportNoiseEvent(GetWorld(), Feet, 0.3f * Alpha, GetOwner(), 0.f, TEXT("Footstep"));
@@ -114,10 +119,14 @@ void UC_SonarComponent::WriteToMPC(const float Strength[4])
 		const FSlot& S = Slots[i];
 		Inst->SetVectorParameterValue(SonarNames[i],
 			FLinearColor(S.Origin.X, S.Origin.Y, S.Origin.Z, S.Radius));
+		UE_LOG(LogTemp, Warning, TEXT(""));
 	}
 	
 	Inst->SetVectorParameterValue(FName(TEXT("SonarStrength")),
 		FLinearColor(Strength[0], Strength[1], Strength[2], Strength[3]));
+	
+	UE_LOG(LogTemp, Warning, TEXT("Str: %.2f %.2f %.2f %.2f  R1=%.0f"),
+	Strength[0], Strength[1], Strength[2], Strength[3], Slots[1].Radius);
 }
 
 void UC_SonarComponent::TickComponent(float DeltaTime, ELevelTick TickType,
