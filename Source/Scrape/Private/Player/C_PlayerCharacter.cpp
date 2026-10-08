@@ -27,8 +27,10 @@ void AC_PlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 void AC_PlayerCharacter::ScratchStart()
 {
 	ScratchTool->SetScratching(true);
+	UE_LOG(LogTemp, Warning, TEXT("Scratch Start"));
 }
 void AC_PlayerCharacter::ScratchEnd()
 {
+	UE_LOG(LogTemp, Warning, TEXT("Scratch End"));
 	ScratchTool->SetScratching(false);
 }

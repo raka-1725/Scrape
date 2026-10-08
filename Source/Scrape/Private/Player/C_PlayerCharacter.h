@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "C_ScratchToolComponent.h"
-#include "ScrapeCharacter.h"
+#include "Defaults/ScrapeCharacter.h"
 #include "C_PlayerCharacter.generated.h"
 
 class UC_SonarComponent;
