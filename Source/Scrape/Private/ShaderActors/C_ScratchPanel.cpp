@@ -7,7 +7,6 @@
 #include "Engine/TextureRenderTarget2D.h"
 #include "Kismet/KismetRenderingLibrary.h"
 #include "Materials/MaterialInstanceDynamic.h"
-#include "opencv2/core/types.hpp"
 
 // Sets default values
 AC_ScratchPanel::AC_ScratchPanel()
@@ -69,7 +68,7 @@ void AC_ScratchPanel::Tick(float DeltaTime)
 	}
 }
 
-UTextureRenderTarget2D* AC_ScratchPanel::CreareRenderTarget()
+UTextureRenderTarget2D* AC_ScratchPanel::CreateRenderTarget()
 {
 	UTextureRenderTarget2D* RT = NewObject<UTextureRenderTarget2D>(this);
 	
@@ -83,6 +82,12 @@ UTextureRenderTarget2D* AC_ScratchPanel::CreareRenderTarget()
 
 float AC_ScratchPanel::ApplyScratch(const FVector2D& UV, float DeltaTime)
 {
+	const float SeedDistCm = ((UV - SeedUV) * WallSize).Size();
+	UE_LOG(LogTemp, Warning, TEXT("SeedDist=%.1f cm (limit %.1f)  SeedUV=(%.2f,%.2f) WallSize=(%.0f,%.0f)"),
+		SeedDistCm, SeedRadius, SeedUV.X, SeedUV.Y, WallSize.X, WallSize.Y);
+	if (SeedDistCm > SeedRadius) return 0.5f;
+	
+	
 	if (((UV - SeedUV) * WallSize).Size() > SeedRadius)
 	{
 		return 0.5f;

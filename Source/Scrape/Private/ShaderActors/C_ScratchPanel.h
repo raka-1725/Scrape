@@ -92,7 +92,7 @@ public:
 	bool IsOpen() const { return bOpen; }
 private:
 	UFUNCTION()
-	UTextureRenderTarget2D* CreareRenderTarget();
+	UTextureRenderTarget2D* CreateRenderTarget();
 	
 	UFUNCTION()
 	void ReDraw();

@@ -25,7 +25,7 @@ UC_ScratchToolComponent::UC_ScratchToolComponent()
 void UC_ScratchToolComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-	UE_LOG(LogTemp, Warning, TEXT("ScratchTool Tick bScratching=%d"), bScratching);
+	//UE_LOG(LogTemp, Warning, TEXT("ScratchTool Tick bScratching=%d"), bScratching);
 	ACharacter* Character = Cast<ACharacter>(GetOwner());
 	if (!Character) return;
 	
@@ -58,8 +58,8 @@ void UC_ScratchToolComponent::TickComponent(float DeltaTime, ELevelTick TickType
 		return;
 
 	AC_ScratchPanel* Panel = Cast<AC_ScratchPanel>(Hit.GetActor());
-	UE_LOG(LogTemp, Warning, TEXT("Scratch: hit %s (not a Panel)"), *GetNameSafe(Hit.GetActor()));
 	if (!Panel) return;
+	UE_LOG(LogTemp, Warning, TEXT("Scratch: hit %s (not a Panel)"), *GetNameSafe(Hit.GetActor()));
 
 	FVector2D UV;
 	if (!UGameplayStatics::FindCollisionUV(Hit, 0, UV))
