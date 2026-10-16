@@ -6,10 +6,10 @@
 #include "GameFramework/Character.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "Framework/NoiseSystem.h"
 #include "Perception/AISense_Hearing.h"
 #include "ShaderActors/C_ScratchPanel.h"
 
-class AC_ScratchPanel;
 // Sets default values for this component's properties
 UC_ScratchToolComponent::UC_ScratchToolComponent()
 {
@@ -59,7 +59,7 @@ void UC_ScratchToolComponent::TickComponent(float DeltaTime, ELevelTick TickType
 
 	AC_ScratchPanel* Panel = Cast<AC_ScratchPanel>(Hit.GetActor());
 	if (!Panel) return;
-	UE_LOG(LogTemp, Warning, TEXT("Scratch: hit %s (not a Panel)"), *GetNameSafe(Hit.GetActor()));
+	//UE_LOG(LogTemp, Warning, TEXT("Scratch: hit %s (not a Panel)"), *GetNameSafe(Hit.GetActor()));
 
 	FVector2D UV;
 	if (!UGameplayStatics::FindCollisionUV(Hit, 0, UV))
@@ -69,6 +69,12 @@ void UC_ScratchToolComponent::TickComponent(float DeltaTime, ELevelTick TickType
 	}
 
 	const float Factor = Panel->ApplyScratch(UV, DeltaTime);
+	if (UNoiseSystem* NS = GetWorld()->GetSubsystem<UNoiseSystem>())
+	{
+		NS->AddNoise(NoisePerSecond * Factor * DeltaTime);
+	}
+	
+	
 	UE_LOG(LogTemp, Warning, TEXT("Scratch UV=(%.2f, %.2f) Factor=%.1f"), UV.X, UV.Y, Factor);
 	
 	UAISense_Hearing::ReportNoiseEvent(GetWorld(), Hit.ImpactPoint,

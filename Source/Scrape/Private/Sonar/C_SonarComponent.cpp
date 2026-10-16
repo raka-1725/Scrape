@@ -3,6 +3,7 @@
 
 #include "Sonar/C_SonarComponent.h"
 
+#include "Framework/NoiseSystem.h"
 #include "GameFramework/Character.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/KismetMaterialLibrary.h"
@@ -43,14 +44,11 @@ bool UC_SonarComponent::FireSonar()
 {
 	if (CooldownLeft > 0.f) return false;
 	
-	//UNoiseSubsystem* Noise = GetWorld()->GetSubsystem<UMNNoiseSubsystem>();
-	//const float Scale = Noise ? Noise->GetSonarRadiusScale() : 1.f;
-	const float Scale = 1.0f;
-	
-	StartSlot(ManualSlot, GetOwner()->GetActorLocation(), MaxRadius * Scale, Duration, 1.f);
+	UNoiseSystem* Noise = GetWorld()->GetSubsystem<UNoiseSystem>();
+	const float Scale = Noise ? Noise->GetSonarRadiusScale() : 1.0f;
+	StartSlot(ManualSlot, GetOwner()->GetActorLocation(), MaxRadius * Scale, Duration, 1.0f);
+	if (Noise) { Noise->AddNoise(NoiseCost); } 
 	CooldownLeft = Cooldown;
-
-	//if (Noise) Noise->AddNoise(NoiseCost);
 
 	//UAISense_Hearing::ReportNoiseEvent(GetWorld(), S.Origin, SonarLoudness,GetOwner(), 0.f, TEXT("Sonar"));
 	
@@ -75,9 +73,9 @@ void UC_SonarComponent::FireFootstepSonar(float Speed)
 
 	StartSlot(Index, Feet, R, FootstepDuration, FootstepStrength * FMath::Lerp(0.6f, 1.f, Alpha));
 	//UE_LOG(LogTemp, Warning, TEXT("SonarComponent::FireSonar()"));
-	// if (UNoiseSubsystem* Noise = GetWorld()->GetSubsystem<UNoiseSubsystem>())
-	//     Noise->AddNoise(FootstepNoiseCost * Alpha);
-	// UAISense_Hearing::ReportNoiseEvent(GetWorld(), Feet, 0.3f * Alpha, GetOwner(), 0.f, TEXT("Footstep"));
+	if (UNoiseSystem* Noise = GetWorld()->GetSubsystem<UNoiseSystem>())
+		Noise->AddNoise(FootstepNoiseCost * Alpha);
+	UAISense_Hearing::ReportNoiseEvent(GetWorld(), Feet, 0.3f * Alpha, GetOwner(), 0.f, TEXT("Footstep"));
 }
 
 void UC_SonarComponent::UpdateFootsteps(float DeltaTime)

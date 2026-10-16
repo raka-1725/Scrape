@@ -4,7 +4,6 @@
 #include "Framework/NoiseSystem.h"
 
 #include "Engine/World.h"
-#include "HAL/IConsoleManager.h"
 #include "Kismet/GameplayStatics.h"
 #include "Materials/MaterialParameterCollection.h"
 #include "Materials/MaterialParameterCollectionInstance.h"
@@ -25,6 +24,7 @@ void UNoiseSystem::Initialize(FSubsystemCollectionBase& Collection)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("MPC not found"));
 	}
+	
 }
 
 
@@ -33,6 +33,12 @@ void UNoiseSystem::AddNoise(float Amount)
 	if (Amount <= 0.0f) { return; }
 	NoiseLevel = FMath::Clamp(NoiseLevel + Amount, 0.0f, 1.0f);
 	TimeSinceAdd = 0.0f; 
+}
+
+void UNoiseSystem::SetNoise(float NewValue)
+{
+	NoiseLevel = FMath::Clamp(NewValue, 0.0f, 1.0f);
+	TimeSinceAdd = 0.0f;
 }
 
 float UNoiseSystem::GetGrowMultiplier() const
@@ -82,3 +88,4 @@ void UNoiseSystem::PushToMPC()
 		Inst->SetScalarParameterValue(FName(TEXT("NoiseLevel")), DisplayNoise);
 	}
 }
+

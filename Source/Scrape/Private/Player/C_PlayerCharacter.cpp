@@ -4,6 +4,7 @@
 #include "Player/C_PlayerCharacter.h"
 
 #include "EnhancedInputComponent.h"
+#include "Framework/NoiseSystem.h"
 #include "Sonar/C_SonarComponent.h"
 
 AC_PlayerCharacter::AC_PlayerCharacter()
@@ -21,6 +22,20 @@ void AC_PlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 		EIC->BindAction(IA_Scratch, ETriggerEvent::Started,   this, &AC_PlayerCharacter::ScratchStart);
 		EIC->BindAction(IA_Scratch, ETriggerEvent::Completed, this, &AC_PlayerCharacter::ScratchEnd);
 		EIC->BindAction(IA_Scratch, ETriggerEvent::Canceled,  this, &AC_PlayerCharacter::ScratchEnd);
+	}
+}
+
+void AC_PlayerCharacter::OnNoiseMaxed()
+{
+}
+
+void AC_PlayerCharacter::BeginPlay()
+{
+	Super::BeginPlay();
+	
+	if (UNoiseSystem* Noise = GetWorld()->GetSubsystem<UNoiseSystem>())
+	{
+		Noise->OnNoiseMaxed.AddDynamic(this, &AC_PlayerCharacter::OnNoiseMaxed);
 	}
 }
 

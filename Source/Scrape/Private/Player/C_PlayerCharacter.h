@@ -33,10 +33,13 @@ public:
 	AC_PlayerCharacter();
 protected:
 
+	virtual void BeginPlay() override;
 	/** Set up input action bindings */
 	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
 	
 private:
+	UFUNCTION()
+	void OnNoiseMaxed();
 	void ScratchStart();
 	void ScratchEnd();
 	

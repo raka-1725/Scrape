@@ -23,8 +23,13 @@ public:
 	virtual bool ShouldCreateSubsystem(UObject* Outer) const final override;
 	virtual void Initialize(FSubsystemCollectionBase& Collection) final override;
 	virtual void Tick(float DeltaTime) override;
+	virtual TStatId GetStatId() const override
+	{
+		RETURN_QUICK_DECLARE_CYCLE_STAT(UNoiseSystem, STATGROUP_Tickables);
+	}
 
 	UFUNCTION(BlueprintCallable) void AddNoise(float Amount);
+	UFUNCTION(BlueprintCallable) void SetNoise(float NewValue);
 	UFUNCTION(BlueprintPure) float GetNoise() const { return NoiseLevel; }
 	
 	UFUNCTION(BlueprintPure) float GetGrowMultiplier() const;

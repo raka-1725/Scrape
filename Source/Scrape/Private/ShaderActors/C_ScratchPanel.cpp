@@ -6,6 +6,7 @@
 #include "Components/StaticMeshComponent.h"
 #include "Engine/TextureRenderTarget2D.h"
 #include "Kismet/KismetRenderingLibrary.h"
+#include "Framework/NoiseSystem.h"
 #include "Materials/MaterialInstanceDynamic.h"
 
 // Sets default values
@@ -83,8 +84,8 @@ UTextureRenderTarget2D* AC_ScratchPanel::CreateRenderTarget()
 float AC_ScratchPanel::ApplyScratch(const FVector2D& UV, float DeltaTime)
 {
 	const float SeedDistCm = ((UV - SeedUV) * WallSize).Size();
-	UE_LOG(LogTemp, Warning, TEXT("SeedDist=%.1f cm (limit %.1f)  SeedUV=(%.2f,%.2f) WallSize=(%.0f,%.0f)"),
-		SeedDistCm, SeedRadius, SeedUV.X, SeedUV.Y, WallSize.X, WallSize.Y);
+	//UE_LOG(LogTemp, Warning, TEXT("SeedDist=%.1f cm (limit %.1f)  SeedUV=(%.2f,%.2f) WallSize=(%.0f,%.0f)"),
+	//	SeedDistCm, SeedRadius, SeedUV.X, SeedUV.Y, WallSize.X, WallSize.Y);
 	if (SeedDistCm > SeedRadius) return 0.5f;
 	
 	
@@ -112,8 +113,9 @@ float AC_ScratchPanel::ApplyScratch(const FVector2D& UV, float DeltaTime)
 	
 	if (Found != INDEX_NONE)
 	{
-		//add nosie here
-		HoleR[Found] = FMath::Min(HoleR[Found] + GrowSPD * DeltaTime, MaxRadius);
+		const UNoiseSystem* Noise = GetWorld()->GetSubsystem<UNoiseSystem>();
+		const float Mult = Noise ? Noise->GetGrowMultiplier() : 1.0f;
+		HoleR[Found] = FMath::Min(HoleR[Found] + GrowSPD * Mult * DeltaTime, MaxRadius);
 		bScratchedThisFrame[Found] = true;
 	}
 	else if (Empty != INDEX_NONE)
