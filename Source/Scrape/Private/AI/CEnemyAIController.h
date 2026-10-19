@@ -34,5 +34,18 @@ private:
 	
 	UFUNCTION()
 	void TargetForgotten(AActor* ForgottenActor);
+	const UObject* GetCurrentTarget() const;
+
+	AActor* GetNextPerceivedActor() const;
+
+public:
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AI|Target")
+	FVector TargetLocation;
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AI|Target")
+	TObjectPtr<AActor> CurrentTarget = nullptr;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AI|Target")
+	bool bHasTarget = false;
 	
 };
