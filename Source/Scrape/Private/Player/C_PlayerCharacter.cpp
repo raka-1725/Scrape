@@ -27,6 +27,7 @@ void AC_PlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 
 void AC_PlayerCharacter::OnNoiseMaxed()
 {
+	
 }
 
 void AC_PlayerCharacter::BeginPlay()
