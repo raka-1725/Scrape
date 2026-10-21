@@ -75,7 +75,7 @@ void UC_SonarComponent::FireFootstepSonar(float Speed)
 	//UE_LOG(LogTemp, Warning, TEXT("SonarComponent::FireSonar()"));
 	if (UNoiseSystem* Noise = GetWorld()->GetSubsystem<UNoiseSystem>())
 		Noise->AddNoise(FootstepNoiseCost * Alpha);
-	UAISense_Hearing::ReportNoiseEvent(GetWorld(), Feet, 0.3f * Alpha, GetOwner(), 0.f, TEXT("Footstep"));
+	//UAISense_Hearing::ReportNoiseEvent(GetWorld(), Feet, 0.3f * Alpha, GetOwner(), 0.f, TEXT("Footstep"));
 }
 
 void UC_SonarComponent::UpdateFootsteps(float DeltaTime)
