@@ -80,8 +80,6 @@ void UC_ScratchToolComponent::TickComponent(float DeltaTime, ELevelTick TickType
 	UAISense_Hearing::ReportNoiseEvent(GetWorld(), Hit.ImpactPoint,
 	   1.0f, Character, 1500.f, TEXT("Scratch"));
 
-	UE_LOG(LogTemp, Warning,
-	TEXT("Emitting scratch noise at %s, loudness=1.0"),
-	*Hit.ImpactPoint.ToString());
+	//UE_LOG(LogTemp, Warning,TEXT("Emitting scratch noise at %s, loudness=1.0"),*Hit.ImpactPoint.ToString());
 }
 

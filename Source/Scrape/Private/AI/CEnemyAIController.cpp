@@ -50,11 +50,7 @@ void ACEnemyAIController::BeginPlay()
 
 void ACEnemyAIController::TargetPerceptionUpdated(AActor* TargetActor, FAIStimulus Stimulus)
 {
-	UE_LOG(LogTemp, Warning,
-		TEXT("Perception: Actor=%s, Sensed=%d, StimulusLocation=%s"),
-		*GetNameSafe(TargetActor),
-		Stimulus.WasSuccessfullySensed(),
-		*Stimulus.StimulusLocation.ToString());
+	//UE_LOG(LogTemp, Warning,TEXT("Perception: Actor=%s, Sensed=%d, StimulusLocation=%s"),*GetNameSafe(TargetActor),Stimulus.WasSuccessfullySensed(),*Stimulus.StimulusLocation.ToString());
 
 	if (!Stimulus.WasSuccessfullySensed())
 	{
